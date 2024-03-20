@@ -133,8 +133,8 @@ class TestAccountService(TestCase):
         account = AccountFactory()
         response = self.client.post(
             BASE_URL,
-            json = account.serialize(),
-            content_type = "application/json"
+            json=account.serialize(),
+            content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -145,13 +145,11 @@ class TestAccountService(TestCase):
         updated_account = response.get_json()
         self.assertEqual(updated_account["name"], "John Doe")
 
-    
     def test_update_account_not_found(self):
         """It should not Update an Account not found"""
         account = AccountFactory()
         response = self.client.put(f"{BASE_URL}/0", json=account.serialize())
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-    
 
     def test_get_account(self):
         """It should Read a single Account"""
@@ -163,12 +161,10 @@ class TestAccountService(TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], account.name)
 
-
     def test_get_account_not_found(self):
         """It should not Read an Account that is not found"""
         resp = self.client.get(f"{BASE_URL}/0")
-        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)    
-
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
@@ -182,7 +178,7 @@ class TestAccountService(TestCase):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
         resp = self.client.delete(f"{BASE_URL}/{account.id}")
-        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)    
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
@@ -201,7 +197,7 @@ class TestAccountService(TestCase):
         }
         for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
-        
+
     def test_cors_security(self):
         """It should return a CORS header"""
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
